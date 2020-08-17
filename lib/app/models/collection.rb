@@ -1,5 +1,5 @@
 class Collection < ActiveRecord::Base
     belongs_to :user
-    has_many :albums
+    belongs_to :album
 
 end

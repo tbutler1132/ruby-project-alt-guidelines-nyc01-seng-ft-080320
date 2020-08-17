@@ -1,3 +1,7 @@
+Album.destroy_all
+User.destroy_all
+Collection.destroy_all
+
 
 tim = User.create(name: "Tim", age: 23, location: "New York")
 alex = User.create(name: "Alex", age: 32, location: "New York")
@@ -14,6 +18,9 @@ beatbox = Album.create(title: "Beatbox", artist: "Los", genre: "Footwork", label
 we_get_the_world = Album.create(title: "We Get The World We Deserve", artist: "Junky Palms", genre: "Techno", label: "Self Released")
 
 Collection.create(user: tim, album: yeezus)
+Collection.create(user: tim, album: anti)
+Collection.create(user: steve, album: yeezus)
+Collection.create(user: alex, album: penetration_testing)
 Collection.create(user: alex, album: beatbox)
 Collection.create(user: steve, album: anti)
 
