@@ -3,15 +3,16 @@ class User < ActiveRecord::Base
     has_many :albums, through: :collections
 
    
-    def delete_album(album)
-        album.delete
+    def delete_album(album_title)   
+        album_to_delete = self.albums.find_by(title: album_title)
+        self.albums.delete(album_to_delete)
     end
 
-    def add_album(new_album=nil, new_title=nil, new_genre=nil, new_artist=nil, new_label=nil)
-        if Album.all.include?(new_album)
+    def add_album(new_album = nil, new_title = nil, new_artist = nil, new_genre = nil, new_label = nil)
+        if Album.album_in_database?(new_album)
             Collection.create(user: self, album: new_album)
         else
-            created_album = Album.create(title: new_title, genre: new_genre, artist: new_artist, label: new_label)
+            created_album = Album.create(title: new_title, artist: new_artist, genre: new_genre, label: new_label)
             Collection.create(user: self, album: created_album)
         end
     end
@@ -35,8 +36,8 @@ class User < ActiveRecord::Base
          User.all[index_of_answer]
      end
 
-     def percent_in_common_
-        if self.albums.count > 3
+     def percent_in_common
+        if self.albums.count > 2
             total_in_common = self.match.albums & self.albums
             total_in_common.count / self.albums.count.to_f * 100
         else
