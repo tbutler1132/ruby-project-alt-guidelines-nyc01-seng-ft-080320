@@ -39,5 +39,17 @@ class User < ActiveRecord::Base
          User.all[index_of_answer]
      end
 
+     def match_percent_in_common
+        total_in_common = self.match.albums & self.albums
+        total_in_common.count / self.albums.count.to_f
+     end
+     
+    #  def match_percent_in_common
+    #     array_one = self.match.albums
+    #     array_two = self.albums
+    #     total_in_common = array_one & array_two
+    #     total_in_common.count / self.albums.count.to_f
+    #  end
+
 
 end
