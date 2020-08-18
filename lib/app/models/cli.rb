@@ -1,20 +1,20 @@
+require_relative 'user.rb'
+require_relative 'album.rb'
+require_relative 'collection.rb'
 
 
-
-
-puts "Welcome! Log in? Sign up?"
-welcomechoice = gets.chomp
-case welcomechoice
-when "login"
-  puts "What is your Username? "
-  username = gets.chomp
-  if
-when "sign up"
-    puts "What would you like to be called?"
-    newuser_name = gets.chomp
-    puts "How old are you? Human years please."
-    newuser_age = gets.chomp
-    puts "What is your location?"
-    newuser_location = gets.chomp
-    User.create(newuser_name, newuser_age, newuser)
+def run
+    puts "Welcome. Input your, name:"
+    user_name = gets.chomp
+    current_user = User.find_by(name: user_name)
+    puts "Hi, #{current_user.name}, would you like to see your albums or your match?"
+    choice = gets.chomp
+    if choice == "albums"
+        display_albums = current_user.albums
+    else choice == "match"
+        display_match = current_user.match.name
+    end
+    binding.pry
 end
+   
+run 
