@@ -15,10 +15,6 @@ class User < ActiveRecord::Base
             Collection.create(user: self, album: created_album)
         end
     end
-            
-   
-    #iterate over User.all grabbing the array of albums and shoveling them into a hash of arrays. Hash key == user id, and Hash value == array.of albums.
-    #than iterate over the hash, returning the id of the array that has the most items in common with the self.albums array.
 
      def match
         array_of_albums = []
@@ -39,17 +35,13 @@ class User < ActiveRecord::Base
          User.all[index_of_answer]
      end
 
-     def match_percent_in_common
-        total_in_common = self.match.albums & self.albums
-        total_in_common.count / self.albums.count.to_f
+     def percent_in_common_
+        if self.albums.count > 3
+            total_in_common = self.match.albums & self.albums
+            total_in_common.count / self.albums.count.to_f * 100
+        else
+            puts "Add more albums to find a match!"
+        end
      end
      
-    #  def match_percent_in_common
-    #     array_one = self.match.albums
-    #     array_two = self.albums
-    #     total_in_common = array_one & array_two
-    #     total_in_common.count / self.albums.count.to_f
-    #  end
-
-
 end
