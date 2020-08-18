@@ -17,12 +17,21 @@ penetration_testing = Album.create(title: "Penetration Testing", artist: "Leonce
 beatbox = Album.create(title: "Beatbox", artist: "Los", genre: "Footwork", label: "JukeBounceWerk")
 we_get_the_world = Album.create(title: "We Get The World We Deserve", artist: "Junky Palms", genre: "Techno", label: "Self Released")
 
-Collection.create(user: tim, album: yeezus)
+Collection.create(user: tim, album: yeezus) 
 Collection.create(user: tim, album: anti)
-Collection.create(user: steve, album: yeezus)
-Collection.create(user: alex, album: penetration_testing)
+Collection.create(user: tim, album: we_get_the_world)
+Collection.create(user: tim, album: the_blueprint)
+Collection.create(user: tim, album: penetration_testing)
+Collection.create(user: alex, album: yeezus) 
+Collection.create(user: alex, album: penetration_testing) 
 Collection.create(user: alex, album: beatbox)
-Collection.create(user: steve, album: anti)
+Collection.create(user: steve, album: anti) 
+Collection.create(user: steve, album: yeezus) 
+Collection.create(user: steve, album: the_blueprint) 
+Collection.create(user: alexis, album: anti)  
+Collection.create(user: alexis, album: yeezus) 
+Collection.create(user: alexis, album: the_blueprint) 
+Collection.create(user: alexis, album: penetration_testing) 
 
 
 

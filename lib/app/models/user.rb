@@ -17,14 +17,27 @@ class User < ActiveRecord::Base
     end
             
    
-    #self
+    #iterate over User.all grabbing the array of albums and shoveling them into a hash of arrays. Hash key == user id, and Hash value == array.of albums.
+    #than iterate over the hash, returning the id of the array that has the most items in common with the self.albums array.
 
+     def match
+        array_of_albums = []
+        user_albums = self.albums
+        array_of_common = []
+         User.all.each do |user|
+             array_of_albums << user.albums
+         end
+         array_of_albums.each do |album_array|
+          common_test = album_array & user_albums   
+            array_of_common << common_test
+        end
+         num_in_common = array_of_common.map do |common|
+             common.count
+         end
+         most_in_common = num_in_common.sort[-2]
+         index_of_answer = num_in_common.index(most_in_common)
+         User.all[index_of_answer]
+     end
 
-#     def match
-#         self.each do |user|
-#             user.each |album|
-#                 album.
-#         end
-#     end
 
 end
