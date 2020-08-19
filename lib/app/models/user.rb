@@ -3,9 +3,15 @@ class User < ActiveRecord::Base
     has_many :albums, through: :collections
 
    
+    # def user_owns_album?(album_title)     ####TEST####
+    #     self.albums.include? do |album|
+    #         album.title == album_title
+    # end
+
+    
     def delete_album(album_title)   
-        album_to_delete = self.albums.find_by(title: album_title)
-        self.albums.delete(album_to_delete)
+            album_to_delete = self.albums.find_by(title: album_title)
+            self.albums.delete(album_to_delete)
     end
 
     def add_album(new_album = nil, new_title = nil, new_artist = nil, new_genre = nil, new_label = nil)
@@ -39,7 +45,8 @@ class User < ActiveRecord::Base
      def percent_in_common
         if self.albums.count > 2
             total_in_common = self.match.albums & self.albums
-            total_in_common.count / self.albums.count.to_f * 100
+            match = total_in_common.count / self.albums.count.to_f * 100
+            match.to_i
         else
             puts "Add more albums to find a match!"
         end

@@ -2,12 +2,15 @@ require_relative 'user.rb'
 require_relative 'album.rb'
 require_relative 'collection.rb'
 
+# puts String.color_samples
 
 def run
     prompt = TTY::Prompt.new
-    user_name = prompt.ask("Please input your name:")
+    pid = fork{ exec ‘afplay’, 'music/file.mp3' }      
+    user_name = prompt.ask("Please input your name:".white.on_light_black.bold)
     current_user = User.find_by(name: user_name)
-    choice = prompt.select("Would you like to view your albums, or match?", %w(albums match))
+system "clear"
+    choice = prompt.select("Welcome #{current_user.name}. Would you like to view your albums, or match?", %w(albums match))
     if choice == "albums"
         current_user.albums.each do |album|
                 puts album.artist + " - " + album.title
@@ -16,6 +19,7 @@ def run
             puts "Your match is #{current_user.match.name}. Your match rate is #{current_user.percent_in_common}%!"
     end
     choice = prompt.select("Would you like to add or delete an album from your collection?", %w(add delete))
+system "clear"
     if choice == "delete"
         puts "Which album would you like to delete?"
         album_title = gets.chomp
@@ -23,7 +27,7 @@ def run
     else choice == "add"
         puts "Please input the album title."
         album_title = gets.chomp
-        if Album.album_in_database?(Album.find_by(title: album_title))     ### add this to method in user?
+        if Album.album_in_database?(Album.find_by(title: album_title))     
             current_user.add_album(Album.find_by(title: album_title))
         else
             puts "Please input the album artist"
@@ -36,7 +40,8 @@ def run
         end
     end               
     choice = prompt.yes?("Your albums have been updated. Would you like to view your current collection?")
-    if choice == "Yes"
+system "clear"
+    if choice == true
         current_user.albums.each do |album|
             puts album.artist + " - " + album.title   ## Doesn't display added album, does remove deleted though
         end
