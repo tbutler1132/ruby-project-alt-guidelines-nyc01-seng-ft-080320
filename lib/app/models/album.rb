@@ -7,7 +7,7 @@ class Album < ActiveRecord::Base
         Album.all.include?(album_to_check_for)
     end
 
-    def self.most_popular_album
+    def self.most_popular
         most_users = Album.all.map do |album|
             album.users.count
         end.max
