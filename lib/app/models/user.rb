@@ -69,5 +69,7 @@ class User < ActiveRecord::Base
      def self.log_in(user_name)
             User.find_by(name: user_name)
      end
+
+     def self.sign_up
      
 end

@@ -12,9 +12,17 @@ def run
         if User.all.include?(User.find_by(name: user_name))
             current_user = User.log_in(user_name)
         else
-            while User.all.include?(User.find_by(name: user_name)) == false
-                user_name = prompt.ask("You are not a member. Please input a valid name:".white.on_light_black.bold)
-                current_user = User.log_in(user_name)
+            while User.all.include?(User.find_by(name: user_name)) == false 
+                user_name = prompt.ask("You are not a member. Please input a valid name or type: Sign up".white.on_light_black.bold)
+                if User.all.include?(User.find_by(name: user_name)) == true
+                    current_user = User.log_in(user_name)
+                else user_name == "Sign Up"
+                    new_user_name = prompt.ask("Please input your first name:")
+                    new_user_age = prompt.ask("Please input your age:") 
+                    new_user_location = prompt.ask("Please input your location:")
+                    current_user = User.create(name: new_user_name, age: new_user_age, location: new_user_location)
+                    break
+                end
             end
         end
     else member == false
