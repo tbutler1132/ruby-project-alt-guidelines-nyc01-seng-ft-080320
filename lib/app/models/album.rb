@@ -15,4 +15,11 @@ class Album < ActiveRecord::Base
             album.users.count == most_users
         end
     end
+
+    # def self.display_albums(user)
+    #     user.albums.each do |album|
+    #         puts album.artist + " - " + album.title.italic
+    #     end
+    # end
+
 end

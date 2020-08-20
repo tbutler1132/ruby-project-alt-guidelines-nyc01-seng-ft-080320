@@ -9,6 +9,32 @@ class User < ActiveRecord::Base
     # end
 
     
+    def artists
+        self.albums.map do |album|
+            album.artist
+        end
+    end
+
+    def favorite_artist
+        self.artists.max_by {|i| self.artists.count(i)}
+    end 
+
+    # def display_albums
+    #     album_instance = self.collections.map do |collection|
+    #         collection.album
+    #     end
+    #     album_instance.each do |album|
+    #         puts album.artist + " - " + album.title.italic
+    #     end
+    # end
+    
+    # def display_albums
+    #     sorted = self.albums.sort_by {|album| album.artist}
+    #     sorted.each do |album|
+    #         puts album.artist + " - " + album.title.italic
+    #     end
+    # end
+    
     def delete_album(album_title)   
             album_to_delete = self.albums.find_by(title: album_title)
             self.albums.delete(album_to_delete)

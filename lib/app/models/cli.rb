@@ -6,21 +6,20 @@ require_relative 'collection.rb'
 
 def run
     prompt = TTY::Prompt.new
-    pid = fork{ exec ‘afplay’, 'music/file.mp3' }      
+    # pid = fork{ exec ‘afplay’, 'music/fill.mp3' }   
     user_name = prompt.ask("Please input your name:".white.on_light_black.bold)
     current_user = User.find_by(name: user_name)
 system "clear"
-    choice = prompt.select("Welcome #{current_user.name}. Would you like to view your albums, or match?", %w(albums match))
+    choice = prompt.select("Welcome #{current_user.name}. Would you like to view your albums or match?", %w(albums match))
     if choice == "albums"
-        current_user.albums.each do |album|
-                puts album.artist + " - " + album.title
-        end
+        Collection.display_albums(current_user)
     else choice == "match"
             puts "Your match is #{current_user.match.name}. Your match rate is #{current_user.percent_in_common}%!"
     end
     choice = prompt.select("Would you like to add or delete an album from your collection?", %w(add delete))
 system "clear"
     if choice == "delete"
+        Collection.display_albums(current_user)
         puts "Which album would you like to delete?"
         album_title = gets.chomp
         current_user.delete_album(album_title)
@@ -42,9 +41,7 @@ system "clear"
     choice = prompt.yes?("Your albums have been updated. Would you like to view your current collection?")
 system "clear"
     if choice == true
-        current_user.albums.each do |album|
-            puts album.artist + " - " + album.title   ## Doesn't display added album, does remove deleted though
-        end
+        Collection.display_albums(current_user)
     end
     
     # binding.pry

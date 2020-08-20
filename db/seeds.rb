@@ -32,6 +32,8 @@ Collection.create(user: alexis, album: anti)
 Collection.create(user: alexis, album: yeezus) 
 Collection.create(user: alexis, album: the_blueprint) 
 Collection.create(user: alexis, album: penetration_testing) 
+Collection.create(user: jeff, album: anti)
+Collection.create(user: alex, album: anti)
 
 
 
