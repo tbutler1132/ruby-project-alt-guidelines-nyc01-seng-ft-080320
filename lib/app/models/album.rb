@@ -3,8 +3,8 @@ class Album < ActiveRecord::Base
     has_many :users, through: :collections
 
 
-    def self.album_in_database?(album_to_check_for)
-        Album.all.include?(album_to_check_for)
+    def self.album_in_database?(album_to_check_for)  ###exists is better
+        Album.exists?(album_to_check_for.id)
     end
 
     def self.most_popular
@@ -16,10 +16,5 @@ class Album < ActiveRecord::Base
         end
     end
 
-    # def self.display_albums(user)
-    #     user.albums.each do |album|
-    #         puts album.artist + " - " + album.title.italic
-    #     end
-    # end
 
 end

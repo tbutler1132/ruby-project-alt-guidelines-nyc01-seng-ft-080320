@@ -2,7 +2,7 @@ class Collection < ActiveRecord::Base
     belongs_to :user
     belongs_to :album
 
-    def self.display_albums(user)
+    def self.display_albums(user)                                   ### Can refactor using active record, written like this because it was not working in CLI
         user_collections = Collection.all.filter do |collection|
             collection.user == user
         end 

@@ -16,7 +16,7 @@ def run
             current_user = User.sign_up_or_log_in 
         end
     else member == false
-        current_user = User.sign_up_or_log_in 
+        current_user = User.log_in
     end
     
 system "clear"
