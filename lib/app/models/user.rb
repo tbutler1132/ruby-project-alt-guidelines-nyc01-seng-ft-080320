@@ -18,22 +18,6 @@ class User < ActiveRecord::Base
     def favorite_artist
         self.artists.max_by {|i| self.artists.count(i)}
     end 
-
-    # def display_albums
-    #     album_instance = self.collections.map do |collection|
-    #         collection.album
-    #     end
-    #     album_instance.each do |album|
-    #         puts album.artist + " - " + album.title.italic
-    #     end
-    # end
-    
-    # def display_albums
-    #     sorted = self.albums.sort_by {|album| album.artist}
-    #     sorted.each do |album|
-    #         puts album.artist + " - " + album.title.italic
-    #     end
-    # end
     
     def delete_album(album_title)   
             album_to_delete = self.albums.find_by(title: album_title)
@@ -77,19 +61,13 @@ class User < ActiveRecord::Base
      end
 
      def percent_in_common
-        if self.albums.count > 2
             total_in_common = self.match.albums & self.albums
             match = total_in_common.count / self.albums.count.to_f * 100
             match.to_i
-        else 
-            puts "Add more albums to find a match!"
-        end
      end
 
-     def self.log_in
-        prompt = TTY::Prompt.new
-        user_name = prompt.ask("Please input your name:".white.on_light_black.bold)
-        User.find_by(name: user_name)
+     def self.log_in(user_name)
+            User.find_by(name: user_name)
      end
      
 end

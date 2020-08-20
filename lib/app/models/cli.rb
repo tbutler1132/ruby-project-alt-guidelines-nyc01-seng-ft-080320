@@ -7,8 +7,16 @@ require_relative 'collection.rb'
 def run
     prompt = TTY::Prompt.new 
     member = prompt.yes?("Are you already a member?")
-    if member == true 
-        current_user = User.log_in
+    if member == true
+        user_name = prompt.ask("Please input your name:".white.on_light_black.bold)
+        if User.all.include?(User.find_by(name: user_name))
+            current_user = User.log_in(user_name)
+        else
+            while User.all.include?(User.find_by(name: user_name)) == false
+                user_name = prompt.ask("You are not a member. Please input a valid name:".white.on_light_black.bold)
+                current_user = User.log_in(user_name)
+            end
+        end
     else member == false
         new_user_name = prompt.ask("Please input your first name:")
         new_user_age = prompt.ask("Please input your age:") 
