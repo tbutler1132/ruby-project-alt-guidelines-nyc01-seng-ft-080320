@@ -1,4 +1,5 @@
 # class ProfilePage
+    # belongs_to :user
 
 # puts "Your Profile:
 
