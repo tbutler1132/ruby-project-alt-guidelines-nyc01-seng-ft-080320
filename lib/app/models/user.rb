@@ -71,5 +71,19 @@ class User < ActiveRecord::Base
      end
 
      def self.sign_up
+        prompt = TTY::Prompt.new
+        new_user_name = prompt.ask("Please input your first name:")
+        new_user_age = prompt.ask("Please input your age:") 
+        new_user_location = prompt.ask("Please input your location:")
+        User.find_or_create_by(name: new_user_name, age: new_user_age, location: new_user_location)
+     end
+
+     def self.exist?(user_name)
+        User.all.include?(User.find_by(name: user_name))
+     end
+
+     def self.log_in_or_sign_up
+        User.find_or_create_by(name: "Tim", age: 23, location: "New York")
+     end
      
 end
