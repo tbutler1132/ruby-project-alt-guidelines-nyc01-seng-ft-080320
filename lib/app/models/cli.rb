@@ -4,6 +4,14 @@ require_relative 'collection.rb'
 
 # puts String.color_samples
 
+Catpix::print_image "lib/app/imgs/Screen Shot 2020-08-20 at 5.03.08 PM.png",
+  :limit_x => 1.0,
+  :limit_y => 0,
+  :center_x => true,
+  :center_y => true,
+  :bg => "white",
+  :bg_fill => false,
+  :resolution => "high"
 def run
     prompt = TTY::Prompt.new 
     member = prompt.yes?("Are you already a member?")
@@ -19,11 +27,27 @@ def run
         current_user = User.log_in
     end
 system "clear"
+Catpix::print_image "lib/app/imgs/Screen Shot 2020-08-20 at 8.58.00 AM.png",
+  :limit_x => 1.0,
+  :limit_y => 0,
+  :center_x => true,
+  :center_y => true,
+  :bg => "white",
+  :bg_fill => false,
+  :resolution => "high"
     choice = prompt.select("Welcome #{current_user.name}. Would you like to view your albums or match?", %w(albums match))
     if choice == "albums"
         if current_user.albums.count == 0
             puts "Yikes! You have no albums!"
         else
+            Catpix::print_image "lib/app/imgs/safe_image.jpeg",
+  :limit_x => 1.0,
+  :limit_y => 0,
+  :center_x => true,
+  :center_y => true,
+  :bg => "white",
+  :bg_fill => false,
+  :resolution => "high"
             Collection.display_albums(current_user)
         end
     else choice == "match"
