@@ -12,9 +12,7 @@ def run
 system "clear"
     choice = prompt.select("Welcome #{current_user.name}. Would you like to view your albums, or match?", %w(albums match))
     if choice == "albums"
-        current_user.albums.each do |album|
-                puts album.artist + " - " + album.title
-        end
+        Collection.display_albums(current_user)
     else choice == "match"
             puts "Your match is #{current_user.match.name}. Your match rate is #{current_user.percent_in_common}%!"
     end
@@ -39,16 +37,12 @@ system "clear"
             current_user.add_album(nil, album_title, album_artist, album_genre, album_label)
         end
     else choice == "display"
-        current_user.albums.each do |album|
-            puts album.artist + " - " + album.title
-        end
+        Collection.display_albums(current_user)
     end               
     choice = prompt.yes?("Your albums have been updated. Would you like to view your current collection?")
 system "clear"
     if choice == true
-        current_user.albums.each do |album|
-            puts album.artist + " - " + album.title   ## Doesn't display added album, does remove deleted though
-        end
+        Collection.display_albums(current_user)
     end
     
     # binding.pry
