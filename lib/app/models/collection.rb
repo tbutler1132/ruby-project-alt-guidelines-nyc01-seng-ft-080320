@@ -2,17 +2,13 @@ class Collection < ActiveRecord::Base
     belongs_to :user
     belongs_to :album
 
-<<<<<<< HEAD
-    def self.display_albums(user)
-=======
     def self.display_albums(user)                                   ### Can refactor using active record, written like this because it was not working in CLI
->>>>>>> tim
         user_collections = Collection.all.filter do |collection|
             collection.user == user
         end 
         user_albums = user_collections.map do |collection|
             collection.album
-        end
+        end.sort_by {|album| album.artist}
         user_albums.each do |album|
             puts album.artist + " - " + album.title.italic
         end

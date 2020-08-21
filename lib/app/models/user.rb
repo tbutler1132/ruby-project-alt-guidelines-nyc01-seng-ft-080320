@@ -75,5 +75,78 @@ class User < ActiveRecord::Base
      def self.exist?(user_name)         ##### Can call directly using exists?(name)
         User.all.include?(User.find_by(name: user_name))
      end
+
+    def existing_member_prompt
+        prompt = TTY::Prompt.new
+        choice = prompt.select("Welcome #{self.name}. Would you like to view your albums or match?", %w(albums match))
+        if choice == "albums"
+            if self.albums.count == 0
+             puts "Yikes! You have no albums!"
+            else
+                Collection.display_albums(self)
+            end
+        else choice == "match"
+            if self.eligible_for_match?
+                puts "Your match is #{self.match.name}. Your match rate is #{self.percent_in_common}%!"
+            else
+                puts "Add more albums to find a match!"
+            end
+        end
+    end
+    
+     def new_user_prompt 
+     puts "Welcome #{self.name}! To get started, please add 3 or more albums to your collection!"   
+        while Collection.display_albums(self).count < 3
+            puts "Please input an album title."   
+            album_title = gets.chomp
+            if Album.album_in_database?(Album.find_by(title: album_title))      
+                self.add_album(Album.find_by(title: album_title))
+                Collection.display_albums(self)
+            else
+                puts "Please input the album artist"
+                album_artist = gets.chomp
+                puts "Please input the album genre"
+                album_genre = gets.chomp
+                puts "Please input the album label"
+                album_label = gets.chomp
+                self.add_album(nil, album_title, album_artist, album_genre, album_label)   ####BUGGED####
+            end
+        end
+        prompt = TTY::Prompt.new
+        choice = prompt.yes?("Awesome, would you like to see if you have a match?")
+        if choice == true
+            puts "Your match is #{self.match.name}. Your match rate is #{self.percent_in_common}%!"
+        end
+    end
+
+    def add_delete_prompt
+        prompt = TTY::Prompt.new
+        choices = {"add" => 1, "delete" => 2, "I just want to view my collection" => 3}
+        choice = prompt.select("Would you like to add or delete an album from your collection?", choices)
+        if choice == choices["delete"]
+            Collection.display_albums(self)
+            puts "Which album would you like to delete?"
+            album_title = gets.chomp
+            self.delete_album(album_title)
+            Collection.display_albums(self)
+        elsif choice == choices["add"]
+            puts "Please input the album title."
+            album_title = gets.chomp
+            if Album.album_in_database?(Album.find_by(title: album_title))     
+                self.add_album(Album.find_by(title: album_title))
+                Collection.display_albums(self)
+            else
+                puts "Please input the album artist"
+                album_artist = gets.chomp
+                puts "Please input the album genre"
+                album_genre = gets.chomp
+                puts "Please input the album label"
+                album_label = gets.chomp
+                self.add_album(nil, album_title, album_artist, album_genre, album_label)
+            end
+        else choice == choices["I just want to view my collection"]
+            Collection.display_albums(self)
+        end
+    end
      
 end
