@@ -76,22 +76,32 @@ class User < ActiveRecord::Base
         User.all.include?(User.find_by(name: user_name))
      end
 
+    def view_matches_albums
+        prompt = TTY::Prompt.new
+        choice = prompt.yes?("Would you like to view your matches' albums")
+        if choice == true 
+            Collection.display_albums(self.match)
+        end
+    end
+
+
     def existing_member_prompt
         prompt = TTY::Prompt.new
-        choice = prompt.select("Welcome #{self.name}. Would you like to view your albums or match?", %w(albums match))
-        if choice == "albums"
-            if self.albums.count == 0
-             puts "Yikes! You have no albums!"
-            else
-                Collection.display_albums(self)
+            choice = prompt.select("Welcome #{self.name}. Would you like to view your albums or match?", %w(albums match))
+            if choice == "albums"
+                if self.albums.count == 0
+                puts "Yikes! You have no albums!"
+                else
+                    Collection.display_albums(self)
+                end
+            else choice == "match"
+                if self.eligible_for_match?
+                    puts "Your match is #{self.match.name}. They are located in #{self.match.location} and their favorite artist is #{self.match.favorite_artist}. Your match rate is #{self.percent_in_common}%!"
+                    self.view_matches_albums
+                else
+                    puts "Add more albums to find a match!"
+                end
             end
-        else choice == "match"
-            if self.eligible_for_match?
-                puts "Your match is #{self.match.name}. Your match rate is #{self.percent_in_common}%!"
-            else
-                puts "Add more albums to find a match!"
-            end
-        end
     end
     
      def new_user_prompt 
@@ -146,6 +156,19 @@ class User < ActiveRecord::Base
             end
         else choice == choices["I just want to view my collection"]
             Collection.display_albums(self)
+        end
+    end
+
+    def view_popularity
+        prompt = TTY::Prompt.new
+        choices = {"Album!" => 1, "Artist" => 2, "Genre" => 3, "I'm good." => 4}
+        choice = prompt.select("Would you like to view what's most popular?", choices)
+        if choice == choices["Album!"]
+            puts Album.most_popular.italic + " is our most popular album!"
+        elsif choice == choices["Artist"]
+            puts "Feature coming soon!"
+        elsif choice == choices["Genre"]
+            puts "Feature coming soon!"
         end
     end
      

@@ -13,7 +13,7 @@ class Album < ActiveRecord::Base
         end.max
         Album.all.find do |album|
             album.users.count == most_users
-        end
+        end.title
     end
 
 
