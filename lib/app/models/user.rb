@@ -163,7 +163,7 @@ class User < ActiveRecord::Base
         choices = {"Album!" => 1, "Artist" => 2, "Genre" => 3, "I'm good." => 4}
         choice = prompt.select("Would you like to view what's most popular?", choices)
         if choice == choices["Album!"]
-            puts Album.most_popular.italic + " is our most popular album!"
+            puts "#{Album.most_popular.title.italic} is our most popular album!"
         elsif choice == choices["Artist"]
             puts "Feature coming soon!"
         elsif choice == choices["Genre"]
