@@ -8,7 +8,7 @@ class Collection < ActiveRecord::Base
         end 
         user_albums = user_collections.map do |collection|
             collection.album
-        end
+        end.sort_by {|album| album.artist}
         user_albums.each do |album|
             puts album.artist + " - " + album.title.italic
         end
